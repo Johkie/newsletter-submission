@@ -1,10 +1,11 @@
 var path    = require('path')
+var salt    = "DotaIsBetterThanLolAndThatsThe(T)"; // Här ska den inte vara, men smidigt!
 
 var express = require('express');
 var fs      = require('fs');
 var Ajv     = require('ajv')
-var shortid = require('shortid');
 var router  = express.Router();
+var CryptoJS = require('crypto-js');
 
 // Selfmade stuff
 var rootDir = path.join(__dirname, '..');
@@ -17,16 +18,40 @@ router.get('/login', function(req, res, next) {
 
   fs.readFile(rootDir + "/data/users.json", (err, data) => {
     
-    if(err) throw err;
+    if (err) throw err;
+    
+    // Build login object
+    let loginDetails = {
+      userName: req.body.userName,
+      password: req.body.password
+    };
 
+    // Get schema and schema validator
+    let schema  = schemas.getLoginSchema();
+    let ajv     = new Ajv();
+    
+    // Check if data is valid against the schema. If not send back errormsg.
+    if (!ajv.validate(schema, loginDetails)) {
+      res.status(500).send(ajv.errors); 
+      return;
+    }
+
+    // Try to find the user by provided name. 
     let users = JSON.parse(data);
-    let loginDetails = req.body;
-    
-    let user = users.find(u => u.userName == loginDetails.userName);
-    
-    let validLogin = (user && user.password == loginDetails.password) ? true : false;
-    if(validLogin) {
-        res.send(user);
+    let user  = users.find(u => u.userName == loginDetails.userName);
+   
+    if (user) {
+
+      // Decrypt password and check if password matches
+      let pw = CryptoJS.AES.decrypt(user.password, salt).toString(CryptoJS.enc.Utf8);
+      let isValidLogin = (pw == loginDetails.password) ? true : false;
+      
+      if(isValidLogin) {
+          res.send(user);
+      }
+      else {
+        res.status(404).send({message: "username or password incorrect!"});
+      }
     }
     else {
       res.status(404).send({message: "username or password incorrect!"});
@@ -37,12 +62,7 @@ router.get('/login', function(req, res, next) {
 /* POST new user */
 router.post('/', async function(req, res, next) {
   
-  // JSON schema validator
-  let ajv = new Ajv();
-
-  // File to append user 
-  let usersFilePath = rootDir + "/data/users.json";  
-  fs.readFile(usersFilePath, (err, data) => {
+  fs.readFile(rootDir + "/data/users.json", (err, data) => {
     
     if(err) throw err;
 
@@ -61,8 +81,9 @@ router.post('/', async function(req, res, next) {
       newsletterSub: req.body.newsletterSub
     }
 
-    // Get userschema
+    // Get schema and schema validator
     let schema = schemas.getUserSchema();
+    let ajv = new Ajv();
 
     // Check if userdata is valid against the schema. If not send back errormsg.
     if (!ajv.validate(schema, newUser)) {
@@ -76,6 +97,10 @@ router.post('/', async function(req, res, next) {
       return;
     }
     
+    // Hash and salt the password
+    newUser.password = CryptoJS.AES.encrypt(newUser.password, salt).toString();
+    console.log(newUser.password);
+
     // Append the new user
     users.push(newUser)
 
@@ -87,7 +112,6 @@ router.post('/', async function(req, res, next) {
         if(err) throw err;
         res.send("User has beend added!");
     });
-
   });
 });
 

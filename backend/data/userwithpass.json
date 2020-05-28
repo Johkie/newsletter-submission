@@ -1,0 +1,20 @@
+[
+    {
+        "userName": "Johkie",
+        "password": "1234",
+        "email": "johkie@gmail.com",
+        "newsletterSub": true
+    },
+    {
+        "userName": "Anders",
+        "password": "qwer",
+        "email": "anders@hotmail.com",
+        "newsletterSub": true
+    },
+    {
+        "userName": "Klasse",
+        "password": "qwer1234",
+        "email": "klasse@hotmail.com",
+        "newsletterSub": false
+    }
+]
