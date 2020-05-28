@@ -1,0 +1,2 @@
+# newsletter-submission
+School project
