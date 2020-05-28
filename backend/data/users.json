@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "userName": "Johkie",
+    "password": "1234",
+    "email": "johkie@gmail.com",
+    "newsletterSub": true
+  },
+  {
+    "id": 2,
+    "userName": "Anders",
+    "password": "qwer",
+    "email": "anders@hotmail.com",
+    "newsletterSub": true
+  },
+  {
+    "id": 3,
+    "userName": "Klasse",
+    "password": "qwer1234",
+    "email": "klasse@hotmail.com",
+    "newsletterSub": false
+  },
+  {
+    "id": 4,
+    "userName": "Nisse",
+    "password": "sad",
+    "email": "Nisse@hotmail.com",
+    "newsletterSub": true
+  },
+  {
+    "id": 5,
+    "userName": "Nisse2",
+    "password": "sad",
+    "email": "Nisse@hotmail.com",
+    "newsletterSub": true
+  }
+]
