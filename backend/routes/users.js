@@ -1,5 +1,5 @@
-var path    = require('path')
 var salt    = "DotaIsBetterThanLolAndThatsThe(T)"; // Här ska den inte vara, men smidigt!
+var path    = require('path')
 
 var express = require('express');
 var fs      = require('fs');
