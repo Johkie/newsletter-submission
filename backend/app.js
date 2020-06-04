@@ -7,7 +7,11 @@ var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
 
+var cors = require('cors')
+
 var app = express();
+
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());

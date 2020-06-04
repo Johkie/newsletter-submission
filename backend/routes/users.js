@@ -11,10 +11,20 @@ var CryptoJS = require('crypto-js');
 var rootDir = path.join(__dirname, '..');
 var schemas = require(`${rootDir}/data/schemas`);
 
+router.get('/', function(req, res, next) {
+  fs.readFile(rootDir + "/data/users.json", (err, data) => {
+    if(err) throw err;
+
+    // Parse userdata
+    let users = JSON.parse(data);
+
+    res.send(users);
+  });
+});
 
 
 /* GET user login */
-router.get('/login', function(req, res, next) {
+router.post('/login', function(req, res, next) {
 
   fs.readFile(rootDir + "/data/users.json", (err, data) => {
     
@@ -50,11 +60,11 @@ router.get('/login', function(req, res, next) {
           res.send(user);
       }
       else {
-        res.status(404).send({message: "username or password incorrect!"});
+        res.send({message: "username or password incorrect!"});
       }
     }
     else {
-      res.status(404).send({message: "username or password incorrect!"});
+      res.send({message: "username or password incorrect!"});
     }
   })
 });
