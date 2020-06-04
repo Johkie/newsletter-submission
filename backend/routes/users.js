@@ -127,10 +127,9 @@ router.post('/', async function(req, res, next) {
 });
 
 router.put('/:id/subscriber', function(req, res, next) {
-  
   let userId = req.params.id;
   let newUserData = req.body;
-
+  
   // Get schema and schema validator
   let schema = schemas.getSubChangeSchema();
   let ajv = new Ajv();
@@ -152,6 +151,7 @@ router.put('/:id/subscriber', function(req, res, next) {
       // Find the user and update the field
       let user = users.find(u => u.id == userId);
       user.newsletterSub = newUserData.newsletterSub;
+      user.email = newUserData.email;
 
       // Stringify data before updating the file
       let updatedUsers = JSON.stringify(users, null, 2); 
@@ -159,12 +159,12 @@ router.put('/:id/subscriber', function(req, res, next) {
       // Write to file
       fs.writeFile(rootDir + "/data/users.json", updatedUsers, (err) => { 
           if(err) throw err;
-          res.send("User has beend updated!");
+          res.send({ message: "User has beend updated!", sucessful: true });
       });
     });
   }
   else {
-    res.send("IDs didnt match!");
+    res.send({ message: "IDs didnt match!" });
   }
 });
 

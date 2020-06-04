@@ -69,12 +69,16 @@ var changeSubscriptionSchema = {
       "id": {
         "type": "integer",
       },
+      "email": {
+        "type": "string"
+      },
       "newsletterSub": {
         "type": "boolean"
       },
     },
     "required": [
       "id",
+      "email",
       "newsletterSub"
     ]
   };

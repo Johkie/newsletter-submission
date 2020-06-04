@@ -11,9 +11,15 @@ class App extends React.Component {
     this.state = {userId: 1};
   }
 
-  handleLoggin(id) {
+  handleLogin(id) {
     this.setState({
       userId: id,
+    })
+  }
+
+  handleLogout() {
+    this.setState({
+      userId: null,
     })
   }
 
@@ -21,9 +27,14 @@ class App extends React.Component {
     return (
       <div>
         {this.state.userId ?
-          <UserData userId={this.state.userId} />    
+          <UserData 
+            userId={this.state.userId} 
+            onLogout={() => this.handleLogout()} 
+          />
         :
-          <LoginForm onLoggin={(id) => this.handleLoggin(id)}/>
+          <LoginForm 
+            onLoggin={(id) => this.handleLogin(id)}
+          />
         }
       </div>
     );
