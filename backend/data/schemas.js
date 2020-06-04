@@ -5,7 +5,11 @@ module.exports =  {
 
     getLoginSchema: function() { 
       return loginSchema;
-  }
+    },
+    
+    getSubChangeSchema: function() { 
+      return changeSubscriptionSchema;
+   }
 }
 
 var userSchema = {
@@ -58,3 +62,19 @@ var loginSchema = {
     "password"
   ]
 };
+
+var changeSubscriptionSchema = {
+  "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+      "id": {
+        "type": "integer",
+      },
+      "newsletterSub": {
+        "type": "boolean"
+      },
+    },
+    "required": [
+      "id",
+      "newsletterSub"
+    ]
+  };

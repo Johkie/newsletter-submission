@@ -25,7 +25,6 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
-
 /* GET user login */
 router.post('/login', function(req, res, next) {
 
@@ -100,19 +99,18 @@ router.post('/', async function(req, res, next) {
 
     // Check if userdata is valid against the schema. If not send back errormsg.
     if (!ajv.validate(schema, newUser)) {
-      res.status(500).send(ajv.errors); 
+      res.send(ajv.errors); 
       return;
     }
     
     // Check if user already exists. If it does send back errormsg
     if (users.find(u => u.userName == newUser.userName)) {
-      res.status(500).send({message: "User already exists"}); 
+      res.send({message: "User already exists"}); 
       return;
     }
     
     // Hash and salt the password
     newUser.password = CryptoJS.AES.encrypt(newUser.password, salt).toString();
-    console.log(newUser.password);
 
     // Append the new user
     users.push(newUser)
@@ -121,11 +119,53 @@ router.post('/', async function(req, res, next) {
     let updatedUsers = JSON.stringify(users, null, 2); 
 
     // Write to file
-    fs.writeFile(usersFilePath, updatedUsers, (err) => { 
+    fs.writeFile(rootDir + "/data/users.json", updatedUsers, (err) => { 
         if(err) throw err;
         res.send("User has beend added!");
     });
   });
+});
+
+router.put('/:id/subscriber', function(req, res, next) {
+  
+  let userId = req.params.id;
+  let newUserData = req.body;
+
+  // Get schema and schema validator
+  let schema = schemas.getSubChangeSchema();
+  let ajv = new Ajv();
+
+  // Check if userdata is valid against the schema. If not send back errormsg.
+  if (!ajv.validate(schema, newUserData)) {
+    res.send(ajv.errors); 
+    return;
+  }
+
+  // Check if IDs are correct
+  if (newUserData.id == userId) {
+    fs.readFile(rootDir + "/data/users.json", (err, data) => {
+      if(err) throw err;
+      
+      // Parse userdata
+      let users = JSON.parse(data);
+
+      // Find the user and update the field
+      let user = users.find(u => u.id == userId);
+      user.newsletterSub = newUserData.newsletterSub;
+
+      // Stringify data before updating the file
+      let updatedUsers = JSON.stringify(users, null, 2); 
+
+      // Write to file
+      fs.writeFile(rootDir + "/data/users.json", updatedUsers, (err) => { 
+          if(err) throw err;
+          res.send("User has beend updated!");
+      });
+    });
+  }
+  else {
+    res.send("IDs didnt match!");
+  }
 });
 
 module.exports = router;
