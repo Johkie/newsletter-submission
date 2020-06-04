@@ -27,7 +27,6 @@ class UserData extends React.Component {
       this.setState({
         userName: data.userName,
         email: data.email,
-        // subscriber: (data.newsletterSub) ? 'Ja' : 'Nej',
         subscriber: data.newsletterSub,
       })
     });
