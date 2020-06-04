@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import LoginForm from './LoginForm'
+import UserData from './UserData'
 
 class App extends React.Component {
   
   constructor(props) {
     super(props);
 
-    this.state = {userId: null};
+    this.state = {userId: 1};
   }
 
   handleLoggin(id) {
@@ -19,14 +20,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-          {this.state.userId ?
-          <div>
-          HEJ PÅ DIG {this.state.userId}
-          </div>
+        {this.state.userId ?
+          <UserData userId={this.state.userId} />    
         :
-          <div>
-            <LoginForm onLoggin={(id) => this.handleLoggin(id)}/>
-          </div>
+          <LoginForm onLoggin={(id) => this.handleLoggin(id)}/>
         }
       </div>
     );

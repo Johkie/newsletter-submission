@@ -11,14 +11,17 @@ var CryptoJS = require('crypto-js');
 var rootDir = path.join(__dirname, '..');
 var schemas = require(`${rootDir}/data/schemas`);
 
-router.get('/', function(req, res, next) {
+router.get('/:id', function(req, res, next) {
   fs.readFile(rootDir + "/data/users.json", (err, data) => {
     if(err) throw err;
 
+    let userId = req.params.id;
+
     // Parse userdata
     let users = JSON.parse(data);
+    let user = users.find(u => u.id == userId);
 
-    res.send(users);
+    res.send(user);
   });
 });
 
