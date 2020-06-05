@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
     .then(data => {
       
       if(data.id) {
-        {this.props.onLoggin(data.id)};
+        this.props.onLoggin(data.id);
       }
     });
   }

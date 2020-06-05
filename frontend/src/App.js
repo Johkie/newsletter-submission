@@ -8,19 +8,28 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {userId: 1};
+    this.state = {test: "yes"};
+    
+    // If a local id is saved, set it to the userid
+    var localId = localStorage.getItem("userId");
+    if (localId) {
+      this.state.userId = localId;
+    }
   }
 
   handleLogin(id) {
     this.setState({
       userId: id,
     })
+    localStorage.setItem("userId", id);
   }
 
   handleLogout() {
     this.setState({
       userId: null,
     })
+
+    localStorage.removeItem("userId");
   }
 
   render() {
