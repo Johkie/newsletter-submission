@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {test: "yes"};
+    this.state = {"userId": null};
     
     // If a local id is saved, set it to the userid
     var localId = localStorage.getItem("userId");
