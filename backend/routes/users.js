@@ -121,7 +121,7 @@ router.post('/', async function(req, res, next) {
     // Write to file
     fs.writeFile(rootDir + "/data/users.json", updatedUsers, (err) => { 
         if(err) throw err;
-        res.send("User has beend added!");
+        res.send({message: "User has beend added!"});
     });
   });
 });

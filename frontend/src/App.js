@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import LoginForm from './LoginForm'
 import UserData from './UserData'
+import RegisterForm from './RegisterForm';
 
 class App extends React.Component {
   
@@ -41,9 +42,12 @@ class App extends React.Component {
             onLogout={() => this.handleLogout()} 
           />
         :
+        <div>
           <LoginForm 
             onLoggin={(id) => this.handleLogin(id)}
           />
+          <RegisterForm />
+        </div>
         }
       </div>
     );

@@ -19,5 +19,12 @@
     "password": "U2FsdGVkX190Dl6COYeJol8yodsSm0+0FXz8lCY9jrc=",
     "email": "klasse@hotmail.com",
     "newsletterSub": false
+  },
+  {
+    "id": 4,
+    "userName": "Bosse",
+    "password": "U2FsdGVkX18VYUjpAply77cvJruAKfuWOSJSlLpRROM=",
+    "email": "bosse@mail.com",
+    "newsletterSub": true
   }
 ]
